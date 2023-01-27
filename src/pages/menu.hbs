@@ -29,7 +29,13 @@
       <div class="content" role="main">
         SFUSD menu 
         {{#each menu}}
-          <li>{{this.date}}</li>
+          <li>{{this.date}}
+            <ul>
+              {{#each this.lunch}}
+              <li>{{this.MenuItemDescription}}</li>
+              {{/each}}
+            </ul>
+        </li>
         {{/each}}
 
       </div>

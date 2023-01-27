@@ -94,7 +94,7 @@ fastify.get("/menu", async function (request, reply) {
     const schoolId2 = "5a689db7-430e-4563-b9e1-8d02e46913bd";
     const date2 = "01/27/2023";
     const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId2}&ServingDate=${date2}&ServingLine=SFUSD&MealType=Lunch`;
-    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=5a689db7-430e-4563-b9e1-8d02e46913bd&ServingDate=01%2F22%2F2023&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=false`
+    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=5a689db7-430e-4563-b9e1-8d02e46913bd&ServingDate=01%2F22%2F2023&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=true`
     const response = await requestMenu(url2)
     const weeks = JSON.parse(response)
     const keys = Object.keys(weeks)

@@ -64,26 +64,22 @@ fastify.get("/", function (request, reply) {
   return reply.view("/src/pages/index.hbs", params);
 });
 
-
 async function requestMenu(url) {
-  
 
-    return new Promise((resolve) => {
-        let data = ''
+  return new Promise((resolve) => {
+    let data = "";
 
-        https.get(url, res => {
+    https.get(url, (res) => {
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
 
-            res.on('data', chunk => { data += chunk }) 
-
-            res.on('end', () => {
-
-               resolve(data);
-
-            })
-        }) 
-    })
+      res.on("end", () => {
+        resolve(data);
+      });
+    });
+  });
 }
-
 
 /**
  * Our home page route
@@ -94,28 +90,20 @@ fastify.get("/menu", async function (request, reply) {
   // params is an object we'll pass to our handlebars template
   let params = { seo: seo };
 
-  // If someone clicked the option for a random color it'll be passed in the querystring
-  if (request.query.randomize) {
-    // We need to load our color data file, pick one at random, and add it to the params
-    const colors = require("./src/colors.json");
-    const allColors = Object.keys(colors);
-    let currentColor = allColors[(allColors.length * Math.random()) << 0];
-    
-    const schoolId2 = "5a689db7-430e-4563-b9e1-8d02e46913bd"
-    const date2 = "01/27/2023"
-    const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId2}&ServingDate=${date2}&ServingLine=SFUSD&MealType=Lunch`
+
+    const schoolId2 = "5a689db7-430e-4563-b9e1-8d02e46913bd";
+    const date2 = "01/27/2023";
+    const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId2}&ServingDate=${date2}&ServingLine=SFUSD&MealType=Lunch`;
 
     const response = await requestMenu(url);
-    console.log(response);
+    const lunch = JSON.parse(response)['LUNCH- HOT']
+    console.log(lunch)
     // Add the color properties to the params object
     params = {
-      color: colors[currentColor],
-      colorError: null,
       seo: seo,
-      menu: JSON.parse(response)
+      menu: lunch,
+      test: "hello",
     };
-  }
-
   // The Handlebars code will be able to access the parameter values and build them into the page
   return reply.view("/src/pages/menu.hbs", params);
 });

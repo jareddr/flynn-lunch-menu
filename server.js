@@ -94,15 +94,16 @@ fastify.get("/menu", async function (request, reply) {
     const schoolId2 = "5a689db7-430e-4563-b9e1-8d02e46913bd";
     const date2 = "01/27/2023";
     const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId2}&ServingDate=${date2}&ServingLine=SFUSD&MealType=Lunch`;
-
-    const response = await requestMenu(url);
-    const lunch = JSON.parse(response)['LUNCH- HOT']
-    console.log(lunch)
+    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=5a689db7-430e-4563-b9e1-8d02e46913bd&ServingDate=01%2F22%2F2023&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=false`
+    const response = await requestMenu(url2)
+    const weeks = JSON.parse(response)
+    const keys = Object.keys(weeks)
+    const menu = keys.map(k => ({'date': k, 'lunch': weeks[k]['LUNCH- HOT']}))
+    console.log(menu)
     // Add the color properties to the params object
     params = {
       seo: seo,
-      menu: lunch,
-      test: "hello",
+      menu: menu,
     };
   // The Handlebars code will be able to access the parameter values and build them into the page
   return reply.view("/src/pages/menu.hbs", params);

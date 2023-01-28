@@ -32,14 +32,17 @@
         </h1>
         {{#each menu}}
           {{#if this.day}}
-          <span class="dayName">{{this.day}}</span> ({{this.date}})
+            <div class="dateRow">
+              <span class="dayName">{{this.day}}</span>
+              <span class="date">({{this.date}})</span>
+            </div>
             <ul>
               {{#each this.lunch}}
                 <li>{{this.MenuItemDescription}}</li>
               {{/each}}
             </ul>
-        
-         {{/if}}
+
+          {{/if}}
         {{/each}}
 
       </div>

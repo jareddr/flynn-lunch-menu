@@ -27,18 +27,19 @@
   <body>
     <div class="wrapper">
       <div class="content" role="main">
-        SFUSD menu
+        <h1>
+          Flynn Lunch Menu
+        </h1>
         {{#each menu}}
-        
-          <li>{{this.day}}
-            -
-            {{this.date}}
+          {{#if this.day}}
+          <span class="dayName">{{this.day}}</span> ({{this.date}})
             <ul>
               {{#each this.lunch}}
                 <li>{{this.MenuItemDescription}}</li>
               {{/each}}
             </ul>
-          </li>
+        
+         {{/if}}
         {{/each}}
 
       </div>

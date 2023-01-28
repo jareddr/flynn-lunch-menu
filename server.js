@@ -71,7 +71,7 @@ fastify.get("/", async function (request, reply) {
     const response = await requestMenu(weeklyMenuUrl)
     const weeklyMenuData = JSON.parse(response)
     const keys = Object.keys(weeklyMenuData)
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    const weekdays = ["","Monday","Tuesday","Wednesday","Thursday","Friday",""]
     const menu = keys.map(k => ({'date': k, 'day': weekdays[new Date(k).getDay()],'lunch': weeklyMenuData[k]['LUNCH- HOT']}))
     // Add the color properties to the params object
     params = {

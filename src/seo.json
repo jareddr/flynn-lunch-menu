@@ -2,6 +2,6 @@
   "glitch-help-instructions": "Leonard Flynn Upcoming Lunches",
   "title": "Leonard Flynn Lunch Schedule",
   "description": "A quick peek at the upcoming Flynn lunch schedule",
-  "url": "glitch-default",
-  "image": "/public/flynn.jpg"
+  "url": "flynn.starblade.io",
+  "image": "/flynn.jpg"
 }

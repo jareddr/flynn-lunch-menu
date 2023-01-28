@@ -66,63 +66,21 @@ fastify.get("/", async function (request, reply) {
 
     const schoolId = "5a689db7-430e-4563-b9e1-8d02e46913bd";
     const date = new Date().toLocaleDateString();
-    const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch`;
-    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=true`
-    const response = await requestMenu(url2)
-    const weeks = JSON.parse(response)
-    const keys = Object.keys(weeks)
-    const menu = keys.map(k => ({'date': k, 'day': new Date(k).getDay(),'lunch': weeks[k]['LUNCH- HOT']}))
-    console.log(menu)
+    //const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch`;
+    const weeklyMenuUrl = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=true`
+    const response = await requestMenu(weeklyMenuUrl)
+    const weeklyMenuData = JSON.parse(response)
+    const keys = Object.keys(weeklyMenuData)
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    const menu = keys.map(k => ({'date': k, 'day': weekdays[new Date(k).getDay()],'lunch': weeklyMenuData[k]['LUNCH- HOT']}))
     // Add the color properties to the params object
     params = {
       seo: seo,
-      menu: menu,
+      menu: menu
+
     };
   // The Handlebars code will be able to access the parameter values and build them into the page
   return reply.view("/src/pages/menu.hbs", params);
-});
-
-/**
- * Our POST route to handle and react to form submissions
- *
- * Accepts body data indicating the user choice
- */
-fastify.post("/", function (request, reply) {
-  // Build the params object to pass to the template
-  let params = { seo: seo };
-
-  // If the user submitted a color through the form it'll be passed here in the request body
-  let color = request.body.color;
-
-  // If it's not empty, let's try to find the color
-  if (color) {
-    // ADD CODE FROM TODO HERE TO SAVE SUBMITTED FAVORITES
-
-    // Load our color data file
-    const colors = require("./src/colors.json");
-
-    // Take our form submission, remove whitespace, and convert to lowercase
-    color = color.toLowerCase().replace(/\s/g, "");
-
-    // Now we see if that color is a key in our colors object
-    if (colors[color]) {
-      // Found one!
-      params = {
-        color: colors[color],
-        colorError: null,
-        seo: seo,
-      };
-    } else {
-      // No luck! Return the user value as the error property
-      params = {
-        colorError: request.body.color,
-        seo: seo,
-      };
-    }
-  }
-
-  // The Handlebars template will use the parameter values to update the page with the chosen color
-  return reply.view("/src/pages/index.hbs", params);
 });
 
 // Run the server and report out to the logs

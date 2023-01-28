@@ -27,15 +27,18 @@
   <body>
     <div class="wrapper">
       <div class="content" role="main">
-        SFUSD menu 
+        SFUSD menu
         {{#each menu}}
-          <li>{{this.day}} - {{this.date}}
+        
+          <li>{{this.day}}
+            -
+            {{this.date}}
             <ul>
               {{#each this.lunch}}
-              <li>{{this.MenuItemDescription}}</li>
+                <li>{{this.MenuItemDescription}}</li>
               {{/each}}
             </ul>
-        </li>
+          </li>
         {{/each}}
 
       </div>

@@ -36,33 +36,6 @@ if (seo.url === "glitch-default") {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
 
-/**
- * Our home page route
- *
- * Returns src/pages/index.hbs with data built into it
- */
-fastify.get("/", function (request, reply) {
-  // params is an object we'll pass to our handlebars template
-  let params = { seo: seo };
-
-  // If someone clicked the option for a random color it'll be passed in the querystring
-  if (request.query.randomize) {
-    // We need to load our color data file, pick one at random, and add it to the params
-    const colors = require("./src/colors.json");
-    const allColors = Object.keys(colors);
-    let currentColor = allColors[(allColors.length * Math.random()) << 0];
-
-    // Add the color properties to the params object
-    params = {
-      color: colors[currentColor],
-      colorError: null,
-      seo: seo,
-    };
-  }
-
-  // The Handlebars code will be able to access the parameter values and build them into the page
-  return reply.view("/src/pages/index.hbs", params);
-});
 
 async function requestMenu(url) {
 
@@ -86,19 +59,19 @@ async function requestMenu(url) {
  *
  * Returns src/pages/index.hbs with data built into it
  */
-fastify.get("/menu", async function (request, reply) {
+fastify.get("/", async function (request, reply) {
   // params is an object we'll pass to our handlebars template
   let params = { seo: seo };
 
 
-    const schoolId2 = "5a689db7-430e-4563-b9e1-8d02e46913bd";
-    const date2 = "01/27/2023";
-    const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId2}&ServingDate=${date2}&ServingLine=SFUSD&MealType=Lunch`;
-    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=5a689db7-430e-4563-b9e1-8d02e46913bd&ServingDate=01%2F22%2F2023&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=true`
+    const schoolId = "5a689db7-430e-4563-b9e1-8d02e46913bd";
+    const date = new Date().toLocaleDateString();
+    const url = `https://webapis.schoolcafe.com/api/CalendarView/GetDailyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch`;
+    const url2 = `https://webapis.schoolcafe.com/api/CalendarView/GetWeeklyMenuitems?SchoolId=${schoolId}&ServingDate=${date}&ServingLine=SFUSD&MealType=Lunch&enabledWeekendMenus=true`
     const response = await requestMenu(url2)
     const weeks = JSON.parse(response)
     const keys = Object.keys(weeks)
-    const menu = keys.map(k => ({'date': k, 'lunch': weeks[k]['LUNCH- HOT']}))
+    const menu = keys.map(k => ({'date': k, 'day': new Date(k).getDay(),'lunch': weeks[k]['LUNCH- HOT']}))
     console.log(menu)
     // Add the color properties to the params object
     params = {

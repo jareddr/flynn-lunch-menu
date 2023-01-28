@@ -3,6 +3,10 @@
 
     <meta charset="utf-8" />
     <link rel="icon" href="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/favicon.ico?v=1674881824762" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/apple-touch-icon.png?v=1674881824470">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/favicon-32x32.png?v=1674881825051">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/favicon.ico?v=1674881824762">
+    <link rel="manifest" href="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/site.webmanifest?v=1674881825624">
     
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -39,12 +43,14 @@
             </div>
             <ul>
               {{#each this.lunch}}
-                <li>{{this.MenuItemDescription}}</li>
+                <li class="item">{{this.MenuItemDescription}}</li>
               {{/each}}
             </ul>
 
           {{/if}}
         {{/each}}
+        
+        <img width="200" src="https://cdn.glitch.global/45c45797-2ff0-423e-bc54-f6ad858df8e7/flynn-logo.png?v=1674882162076" />
 
       </div>
     </div>
